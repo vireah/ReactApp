@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from 'react';
-
+import React, {useState} from 'react';
 import Input from "../../common/Input/Input";
 import Button from "../../common/Button/Button";
 
@@ -9,28 +8,14 @@ const CreateCourse = (props) => {
 
     const [title, setTitle] = useState([]);
     const [description, setDescription] = useState([]);
-    // const [allAuthors, setAllAuthors] = useState([]);
-    // const defaultAuthors = [...new Set([].concat(...props.data.map((course) => course.names)))]
 
-    // console.log(props.mockedAuthorsList2,"1");
-    // useEffect(() => {
-    //     // setAllAuthors(props.mockedAuthorsList2.map((course) => course.name))
-    //     props.setmockedAuthors2(props.mockedAuthorsList2)
-    // }, [] )
-    //
-    // const getInputValue = () => {
-    //     setNewAuthorInputValue([...props.mockedAuthorsList, {
-    //         id: 'f762978b-61eb-4096-812b-ebsdfde22838167',
-    //         name: 'Nidsfsdfacolas Kim'
-    //     }] );
-    // }
     const setAuthorName = (event) => {
         setNewAuthorInputValue(event.target.value);
         console.log(event.target.value,"te222st")
     }
 
     const addAuthorName = () => {
-        props.setmockedAuthors([...props.mockedAuthorsList, {
+        props.setMockedAuthors([...props.mockedAuthorsList, {
             id: 'id + Math.random().toString(16).slice(2)',
             name: newAuthorInputValue
         }]);
@@ -51,7 +36,7 @@ const CreateCourse = (props) => {
             description: description,
             creationDate: '10/11/2020',
             duration: 210,
-            authors: ['dttttte4dc02882f', '095a1817-tttt7bcbf748']
+            authors: selectedAuthors
         }]);
         props.setIsAddCourse(false)
         console.log(props.mockedCoursesList,"test")

@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import Button from "../../../../common/Button/Button";
 import Input from "../../../../common/Input/Input";
-import App from "../../../../App";
-import {useCallback} from "react/cjs/react.production.min";
 
 const SearchBar = (props) => {
     const [value, setValue] = useState("");
@@ -19,9 +17,10 @@ const SearchBar = (props) => {
         props.setData(result);
 
     }
+
     return (
         <div>
-            <Input onChange={(e)=> handleChange(e)} placeholder="bbbbbb"/>
+            <Input onChange={(e)=> handleChange(e)} placeholder="Search"/>
             <Button onClick={handleSearch} title = 'Search' />
         </div>
     )

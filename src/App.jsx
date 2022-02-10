@@ -1,10 +1,7 @@
-import logo from './logo.svg';
 import React, {useState, useEffect} from 'react';
 import './App.css';
 import Header from "./components/Header/Header";
 import Courses from "./components/Courses/Courses";
-import Button from "./common/Button/Button";
-// import MainContent from "./components/Courses/MainContent";
 
 const mockedCoursesList = [
     {
@@ -61,22 +58,20 @@ const mockedAuthorsList = [
 
 function App() {
     const [mockedCourses, setMockedCoursesList] = useState([]);
-    const [mockedAuthors, setmockedAuthors] = useState([]);
-    // const [isAddCourse, setIsAddCourse] = useState(false); addCourse={isAddCourse}
+    const [mockedAuthors, setMockedAuthors] = useState([]);
 
     useEffect(() => {
         setMockedCoursesList(mockedCoursesList)
-        setmockedAuthors(mockedAuthorsList)
+        setMockedAuthors(mockedAuthorsList)
     }, [] )
 
     return (
         <div>
             <Header/>
-            {/*<MainContent mockedCoursesList={mockedCourses} mockedAuthorsList={mockedAuthors} />*/}
-            <Courses mockedCoursesList={mockedCourses} setMockedCourses={setMockedCoursesList} mockedAuthorsList={mockedAuthors} setmockedAuthors={setmockedAuthors} />
-            {/*<Button onClick={() => setIsAddCourse(true)} title = 'Add new course' />*/}
+            <Courses mockedCoursesList={mockedCourses} setMockedCourses={setMockedCoursesList} mockedAuthorsList={mockedAuthors} setMockedAuthors={setMockedAuthors} />
         </div>
     )
 }
+
 export default App;
 
