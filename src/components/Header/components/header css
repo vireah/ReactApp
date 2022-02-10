@@ -1,4 +1,0 @@
-.header {
-    min-height: 50px;
-    border: 2px solid indianred;
-}
