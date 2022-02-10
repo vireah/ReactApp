@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
+
 import Header from "./components/Header/Header";
 import Courses from "./components/Courses/Courses";
+import CreateCourse from "./components/CreateCourse/CreateCourse";
 
 const mockedCoursesList = [
     {
@@ -59,6 +61,7 @@ const mockedAuthorsList = [
 function App() {
     const [mockedCourses, setMockedCoursesList] = useState([]);
     const [mockedAuthors, setMockedAuthors] = useState([]);
+    const [showCreateCourseComponent, setShowCreateCourseComponent] = useState(false);
 
     useEffect(() => {
         setMockedCoursesList(mockedCoursesList)
@@ -66,10 +69,14 @@ function App() {
     }, [] )
 
     return (
-        <div>
-            <Header/>
-            <Courses mockedCoursesList={mockedCourses} setMockedCourses={setMockedCoursesList} mockedAuthorsList={mockedAuthors} setMockedAuthors={setMockedAuthors} />
-        </div>
+        <>
+            {!showCreateCourseComponent ? <Courses mockedCoursesList={mockedCourses} setMockedCourses={setMockedCoursesList} mockedAuthorsList={mockedAuthors} setMockedAuthors={setMockedAuthors} setShowCreateCourseComponent={setShowCreateCourseComponent} /> :
+                                     <CreateCourse mockedCoursesList={mockedCourses} setMockedCourses={setMockedCoursesList} mockedAuthorsList={mockedAuthors} setMockedAuthors={setMockedAuthors} setShowCreateCourseComponent={setShowCreateCourseComponent} />}
+            </>
+        // <div>
+        //     <Header/>
+        //     <Courses mockedCoursesList={mockedCourses} setMockedCourses={setMockedCoursesList} mockedAuthorsList={mockedAuthors} setMockedAuthors={setMockedAuthors} />
+        // </div>
     )
 }
 

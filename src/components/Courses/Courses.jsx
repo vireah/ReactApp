@@ -6,8 +6,6 @@ import CreateCourse from "../CreateCourse/CreateCourse";
 
 const Courses = (props) => {
     const [data, setData] = useState([]);
-    const [isAddCourse, setIsAddCourse] = useState(false);
-
     const parsedata = props.mockedCoursesList.reduce((acc, item) => {
         const users = props.mockedAuthorsList.filter((el) =>
             item.authors.some((id) => id === el.id)
@@ -18,23 +16,25 @@ const Courses = (props) => {
 
     useEffect(() => {
         setData(parsedata)
-    }, [props.mockedCoursesList] )
+    }, [props.mockedCoursesList])
 
-    if (isAddCourse) {
-        return (
-            <div>
-                <CreateCourse setIsAddCourse={setIsAddCourse} mockedCoursesList={props.mockedCoursesList} setMockedCourses={props.setMockedCourses} mockedAuthorsList={props.mockedAuthorsList} setMockedAuthors={props.setMockedAuthors} data={data} />
-            </div>
-        )
-    } else {
+    console.log(props.mockedAuthorsList,"Couses1111111111")
+    console.log(props.data,"data111111111")
+    // if (isAddCourse) {
+    //     return (
+    //         <div>
+    //             <CreateCourse setIsAddCourse={setIsAddCourse} mockedCoursesList={props.mockedCoursesList} setMockedCourses={props.setMockedCourses} mockedAuthorsList={props.mockedAuthorsList} setMockedAuthors={props.setMockedAuthors} data={data} />
+    //         </div>
+    //     )
+    // } else {
         return (
             <div className="courses-wrapper">
                 <SearchBar data={data} setData={setData} />
                 {data.map((course) => <CourseCard key={course.id} value={course}  />)}
-                <Button onClick={() => setIsAddCourse(true)} title = 'Add new course' />
+                <Button onClick={() => props.setShowCreateCourseComponent(true)} title = 'Add new course' />
             </div>
         );
-    }
+    // }
 };
 
 export default Courses;

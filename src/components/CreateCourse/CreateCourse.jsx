@@ -38,8 +38,8 @@ const CreateCourse = (props) => {
             duration: 210,
             authors: selectedAuthors
         }]);
-        props.setIsAddCourse(false)
-        console.log(props.mockedCoursesList,"test")
+        props.setShowCreateCourseComponent(false)
+        console.log(props.mockedAuthorsList,"testCreateCourse")
     }
 
     const handleAuthor = (author,event) => {
