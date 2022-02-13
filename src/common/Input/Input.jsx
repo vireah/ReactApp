@@ -5,7 +5,7 @@ const Input = props => {
         <div>
             <label>
                 <input
-                    type="text"
+                    type={props.type}
                     id = {props.id}
                     value={props.value}
                     placeholder={props.placeholder}

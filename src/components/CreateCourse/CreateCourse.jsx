@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import Input from "../../common/Input/Input";
 import Button from "../../common/Button/Button";
+import { useNavigate } from "react-router-dom";
 
 const CreateCourse = (props) => {
+    let navigate = useNavigate();
     const [newAuthorInputValue, setNewAuthorInputValue] = useState([]);
     const [selectedAuthors, setSelectedAuthors] = useState([]);
 
@@ -39,7 +41,7 @@ const CreateCourse = (props) => {
             authors: selectedAuthors
         }]);
         props.setShowCreateCourseComponent(false)
-        console.log(props.mockedAuthorsList,"testCreateCourse")
+        navigate('/courses')
     }
 
     const handleAuthor = (author,event) => {
@@ -57,7 +59,7 @@ const CreateCourse = (props) => {
             <div className="create-course-header">
                 <div>
                     <label htmlFor="title">Title</label>
-                    <Input id="title" onChange={getTitle} placeholder="Title"/>
+                    <Input id="title" onChange={getTitle} type="text" placeholder="Title"/>
                 </div>
                 <Button onClick={setCourseValues} title = 'Create Course' />
             </div>
@@ -69,7 +71,7 @@ const CreateCourse = (props) => {
                 <div className="item create-author">
                     <h4>Add Authors</h4>
                     <label htmlFor="create-author">Author name</label>
-                    <Input id="create-author" onChange={setAuthorName} placeholder="Enter Author name.."/>
+                    <Input id="create-author" onChange={setAuthorName} type="text" placeholder="Enter Author name.."/>
                     <Button  newAuthorInputValue={newAuthorInputValue} onClick={addAuthorName} title = 'Create Author' />
                 </div>
                 <div className="item all-course-authors">
@@ -84,7 +86,7 @@ const CreateCourse = (props) => {
                 <div className="item current-course-section">
                     <h4>Duration time</h4>
                     <label htmlFor="duration">Description</label>
-                    <input id="duration" className="duration"></input>
+                    <input id="duration" type="text" className="duration"></input>
                 </div>
                 <div className="item current-course-section">
                     <h4>Course Authors</h4>

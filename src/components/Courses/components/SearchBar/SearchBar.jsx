@@ -20,7 +20,7 @@ const SearchBar = (props) => {
 
     return (
         <div>
-            <Input onChange={(e)=> handleChange(e)} placeholder="Search"/>
+            <Input onChange={(e)=> handleChange(e)} type="text" placeholder="Search"/>
             <Button onClick={handleSearch} title = 'Search' />
         </div>
     )
