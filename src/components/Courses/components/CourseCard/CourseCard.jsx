@@ -1,7 +1,15 @@
-import React from 'react';
+import React , {useEffect}  from 'react';
 import Button from "../../../../common/Button/Button";
+import { useNavigate,  useParams} from "react-router-dom";
 
 const CourseCard = (props) => {
+    let navigate = useNavigate();
+    // let { id } = useParams();
+
+    // const showCourseClick = () => {
+    //     navigate( `/courses/:id`)
+    // }
+
     return (
         <div className="course-card">
             <div>
@@ -14,7 +22,9 @@ const CourseCard = (props) => {
                 <div>{props.value.names}</div>
             </div>
             <div>
-                <Button title = 'Show course' />
+                <Button onClick={() => navigate( `/courses/${props.id}`)} title = 'Show course' />
+                {/*<Button onClick={showCourseClick} title = 'Show course' />*/}
+                {/*<Button title = 'Show course' />*/}
             </div>
         </div>
     )

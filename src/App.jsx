@@ -1,13 +1,17 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, createContext } from 'react';
 import './App.css';
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Registration from "./components/Courses/components/Registration/Registration";
 import Header from "./components/Header/Header";
 import Courses from "./components/Courses/Courses";
 import CreateCourse from "./components/CreateCourse/CreateCourse";
+import CourseInfo from "./components/Courses/components/CourseInfo/CourseInfo";
 import Login from "./components/Courses/components/Login/Login";
-import { Navigate  } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import CourseCard from "./components/Courses/components/CourseCard/CourseCard";
 
+
+export const CoursesContext = createContext('');
 
 const mockedCoursesList = [
     {
@@ -65,7 +69,6 @@ const mockedAuthorsList = [
 function App() {
     const [mockedCourses, setMockedCoursesList] = useState([]);
     const [mockedAuthors, setMockedAuthors] = useState([]);
-    const [showCreateCourseComponent, setShowCreateCourseComponent] = useState(false);
 
     const [loggedIn, setLoggedIn] = useState(false)
     const isAuthenticated = localStorage.getItem("isAuthenticated");
@@ -75,29 +78,20 @@ function App() {
         setMockedAuthors(mockedAuthorsList)
     }, [] )
 
-    return <Router>
-                <Routes>
-                    <Route path='/registration' element={<Registration/>}/>
-                    <Route path='/login' element={loggedIn ? <Navigate to="/courses" /> : <Login loggedIn={loggedIn} setLoggedIn={setLoggedIn}  />}/>
-                    <Route path='/courses' element={loggedIn || isAuthenticated ? <Courses mockedCoursesList={mockedCourses} setMockedCourses={setMockedCoursesList} mockedAuthorsList={mockedAuthors} setMockedAuthors={setMockedAuthors} setShowCreateCourseComponent={setShowCreateCourseComponent} loggedIn={loggedIn} setLoggedIn={setLoggedIn}/> : <Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}/>
-                    <Route path='/courses/add' element={loggedIn || isAuthenticated ? <CreateCourse mockedCoursesList={mockedCourses} setMockedCourses={setMockedCoursesList} mockedAuthorsList={mockedAuthors} setMockedAuthors={setMockedAuthors} setShowCreateCourseComponent={setShowCreateCourseComponent}/> : <Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}/>
-                    />
-                    <Route path='/logout' element={loggedIn ? <Navigate to="/courses" /> : <Login loggedIn={loggedIn} setLoggedIn={setLoggedIn}  />}/>
-                    {/*<Route exact path="/courses" element={false ? <Navigate to="/courses" /> : <Registration/>}/>*/}
+    return  <CoursesContext.Provider value={{ mockedCourses: [mockedCourses, setMockedCoursesList], mockedAuthors: [mockedAuthors, setMockedAuthors] }}>
+                <Router>
+                    <Routes>
+                        <Route path='/registration' element={<Registration/>}/>
+                        <Route path='/login' element={loggedIn ? <Navigate to="/courses" /> : <Login loggedIn={loggedIn} setLoggedIn={setLoggedIn}  />}/>
+                        <Route path='/courses' element={ loggedIn || isAuthenticated ? <Courses loggedIn={loggedIn} setLoggedIn={setLoggedIn}/> : <Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}/>
+                        <Route path='/courses/add' element={loggedIn || isAuthenticated ? <CreateCourse /> : <Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}/>
+                        />
 
-                </Routes>
-            </Router>
-    // <BrowserRouter>
-    //     <Routes>
-    //         <Route path="/register" component={<Registration/>} />
-    //     </Routes>
-    // </BrowserRouter>
-    {/*<>*/}
-    {/*    {!showCreateCourseComponent ? <Courses mockedCoursesList={mockedCourses} setMockedCourses={setMockedCoursesList} mockedAuthorsList={mockedAuthors} setMockedAuthors={setMockedAuthors} setShowCreateCourseComponent={setShowCreateCourseComponent} /> :*/}
-    {/*        <CreateCourse mockedCoursesList={mockedCourses} setMockedCourses={setMockedCoursesList} mockedAuthorsList={mockedAuthors} setMockedAuthors={setMockedAuthors} setShowCreateCourseComponent={setShowCreateCourseComponent} />}*/}
-    {/*</>*/}
+                        <Route path="/courses/:id" element={<CourseInfo />} />
 
-
+                    </Routes>
+                </Router>
+            </CoursesContext.Provider>
 }
 
 export default App;

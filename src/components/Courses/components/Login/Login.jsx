@@ -1,23 +1,17 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 
 import Input from "../../../../common/Input/Input";
 import Button from "../../../../common/Button/Button";
 import { Link } from "react-router-dom";
-import { Navigate  } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from 'react-router-dom'
 
 const Login = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // const [users, setUsers] = useState([]);
-
     const newUser = {
         email,
         password
     };
-
 
     const getUser = async (e) => {
         e.preventDefault();
@@ -56,10 +50,8 @@ const Login = (props) => {
                     <label htmlFor="password">Password</label>
                     <Input id="password" onChange={handlePassword} type="password" placeholder="password"/>
                 </div>
-                <Button type="button" title = 'Отправить' />
-
+                <Button type="button" title = 'Login' />
                 <Link to="registration">registration</Link>
-                {/*<Input type="button" value="Отправить"/>*/}
             </form>
         </div>
     )

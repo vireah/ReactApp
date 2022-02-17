@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 
 import Input from "../../../../common/Input/Input";
 import Button from "../../../../common/Button/Button";
@@ -53,8 +53,7 @@ const Registration = () => {
                     <label htmlFor="password">Password</label>
                     <Input id="password" onChange={handlePassword} type="password" placeholder="password"/>
                 </div>
-                <Button type="button" title = 'Отправить' />
-                {/*<Input type="button" value="Отправить"/>*/}
+                <Button type="button" title = 'Registration' />
             </form>
         </div>
     )

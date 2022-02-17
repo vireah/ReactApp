@@ -1,10 +1,15 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Input from "../../common/Input/Input";
 import Button from "../../common/Button/Button";
 import { useNavigate } from "react-router-dom";
+import {CoursesContext} from "../../App";
 
-const CreateCourse = (props) => {
+const CreateCourse = () => {
     let navigate = useNavigate();
+    const { mockedCourses, mockedAuthors } = useContext(CoursesContext);
+    const [mockedCoursesState, setMockedCoursesList] = mockedCourses;
+    const [mockedAuthorsState, setMockedAuthors] = mockedAuthors;
+
     const [newAuthorInputValue, setNewAuthorInputValue] = useState([]);
     const [selectedAuthors, setSelectedAuthors] = useState([]);
 
@@ -13,11 +18,10 @@ const CreateCourse = (props) => {
 
     const setAuthorName = (event) => {
         setNewAuthorInputValue(event.target.value);
-        console.log(event.target.value,"te222st")
     }
 
     const addAuthorName = () => {
-        props.setMockedAuthors([...props.mockedAuthorsList, {
+        setMockedAuthors([...mockedAuthorsState, {
             id: 'id + Math.random().toString(16).slice(2)',
             name: newAuthorInputValue
         }]);
@@ -32,7 +36,7 @@ const CreateCourse = (props) => {
     }
 
     const setCourseValues = () => {
-        props.setMockedCourses([...props.mockedCoursesList, {
+        setMockedCoursesList([...mockedCoursesState, {
             id: 'de5aaa59-90f5-4dbc-b8a9-aaf205c5512ba',
             title: title,
             description: description,
@@ -40,7 +44,7 @@ const CreateCourse = (props) => {
             duration: 210,
             authors: selectedAuthors
         }]);
-        props.setShowCreateCourseComponent(false)
+
         navigate('/courses')
     }
 
@@ -76,7 +80,7 @@ const CreateCourse = (props) => {
                 </div>
                 <div className="item all-course-authors">
                     <h4>Authors</h4>
-                    {props.mockedAuthorsList.map((course) => course.name).map((author) => {
+                    {mockedAuthorsState.map((course) => course.name).map((author) => {
                         return   <div key={author} className="item">
                                         <div>{author}</div>
                                         <Button key={author} name={author} onClick={({e} )=> handleAuthor(author, e )} title = 'Add Author' />
