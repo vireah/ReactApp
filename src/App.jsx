@@ -8,11 +8,22 @@ import CreateCourse from "./components/CreateCourse/CreateCourse";
 import CourseInfo from "./components/Courses/components/CourseInfo/CourseInfo";
 import Login from "./components/Courses/components/Login/Login";
 import { Navigate } from "react-router-dom";
+import { createStore } from 'redux'
+import coursesReducer from "./store/courses/reducer";
+import authorsReducer from "./store/courses/reducer";
+import userReducer from "./store/courses/reducer";
+import { combineReducers } from 'redux'
 import CourseCard from "./components/Courses/components/CourseCard/CourseCard";
 
 
+// export default combineReducers(reducer)
+export const rootReducer = combineReducers({ courses: coursesReducer, authors: authorsReducer, user: userReducer})
+
+export const store = createStore(rootReducer);
 export const CoursesContext = createContext('');
 
+console.log(store.getState(),'oh')
+// [ 'Use Redux', 'Read the docs' ]
 const mockedCoursesList = [
     {
         id: 'de5aaa59-90f5-4dbc-b8a9-aaf205c551ba',
@@ -73,10 +84,10 @@ function App() {
     const [loggedIn, setLoggedIn] = useState(false)
     const isAuthenticated = localStorage.getItem("isAuthenticated");
 
-    useEffect(() => {
-        setMockedCoursesList(mockedCoursesList)
-        setMockedAuthors(mockedAuthorsList)
-    }, [] )
+    // useEffect(() => {
+    //     setMockedCoursesList(mockedCoursesList)
+    //     setMockedAuthors(mockedAuthorsList)
+    // }, [] )
 
     return  <CoursesContext.Provider value={{ mockedCourses: [mockedCourses, setMockedCoursesList], mockedAuthors: [mockedAuthors, setMockedAuthors] }}>
                 <Router>

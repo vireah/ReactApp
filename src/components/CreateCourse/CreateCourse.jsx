@@ -3,6 +3,10 @@ import Input from "../../common/Input/Input";
 import Button from "../../common/Button/Button";
 import { useNavigate } from "react-router-dom";
 import {CoursesContext} from "../../App";
+import {addCourse, addCourses} from "../../store/courses/actionCreators";
+// import getCourses from "../../servisces";
+import {store} from "../../App";
+import { useDispatch } from 'react-redux'
 
 const CreateCourse = () => {
     let navigate = useNavigate();
@@ -15,6 +19,7 @@ const CreateCourse = () => {
 
     const [title, setTitle] = useState([]);
     const [description, setDescription] = useState([]);
+    const dispatch = useDispatch();
 
     const setAuthorName = (event) => {
         setNewAuthorInputValue(event.target.value);
@@ -35,6 +40,30 @@ const CreateCourse = () => {
         setDescription(event.target.value);
     }
 
+    const item = {
+        "title": title,
+        "description": description,
+        "duration": 60,
+        "authors": [
+            "5e0b0f18-32c9-4933-b142-50459b47f09e"
+        ]
+    };
+
+
+    const setCourse = async () => {
+        console.log(item, "item");
+        const response = await fetch('http://localhost:3000/courses/add', {
+            method: 'POST',
+            body: JSON.stringify(item),
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": "Bearer mIs97hgONLeEb/VEYdCaBXSygupzBxnAUHXrBVZtWgEwTEcBUMIWZpXRGViwcZdlCugbKyJT1zFsrX9cFWKYgmwuIRj50djQ2D1RuTzp0PXgPrn1lAUtiUgcP5G+0fu2Aqc3Cd/88BB4pCJzY/MI49FAHe8+hBqBeykJC9HQAlsq1F+p2A+J7IOWad4nIwTL9RpGQsbwkHoATjT3b40U7epBlaADOLC7PySPig9LYKOqGHmFFcJ1QqfrqOE5hS7EKGQ2DylSoNlki1rZKRZrIVaXuQkejZXdsQP791Y+0H78GgwwL/ZAAl7FJ7ceO+f742G+xd5ymbw4RZlrfXt/9w=="
+            },
+        });
+        const result = await response.json();
+        console.log(result);
+    }
+
     const setCourseValues = () => {
         setMockedCoursesList([...mockedCoursesState, {
             id: 'de5aaa59-90f5-4dbc-b8a9-aaf205c5512ba',
@@ -44,11 +73,16 @@ const CreateCourse = () => {
             duration: 210,
             authors: selectedAuthors
         }]);
+        dispatch(addCourse(item));
+        //
+        // const l = setCourse();
 
         navigate('/courses')
     }
 
     const handleAuthor = (author,event) => {
+        // dispatch(addAuthor(text));
+
         const newSelectedAuthors = selectedAuthors.filter(item => author !== item)
             return setSelectedAuthors([...newSelectedAuthors, author]);
     }

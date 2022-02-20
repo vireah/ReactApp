@@ -1,14 +1,11 @@
-import React , {useEffect}  from 'react';
+import React  from 'react';
 import Button from "../../../../common/Button/Button";
 import { useNavigate,  useParams} from "react-router-dom";
 
+import state from "../../../../store/courses/reducer";
+
 const CourseCard = (props) => {
     let navigate = useNavigate();
-    // let { id } = useParams();
-
-    // const showCourseClick = () => {
-    //     navigate( `/courses/:id`)
-    // }
 
     return (
         <div className="course-card">
