@@ -1,11 +1,24 @@
-import * as actions from "./actionTypes"
+import { get_courses_list } from './actionTypes';
+import { delete_current_course } from './actionTypes';
+import { add_new_course } from './actionTypes';
 
-export const addCourses = result => ({
-    type: actions.FETCH_REMOTE_DATA_SUCCESS,
-    payload: result
-})
+export const getCoursesListAction = (payload) => {
+	return {
+		type: get_courses_list,
+		payload: payload,
+	};
+};
 
-export const addCourse = result => ({
-    type: actions.ADD_COURSE,
-    payload: result
-})
+export const deleteCurrentCourseAction = (payload) => {
+	return {
+		type: delete_current_course,
+		payload: payload,
+	};
+};
+
+export const addNewCourseAction = (payload) => {
+	return {
+		type: add_new_course,
+		payload: payload,
+	};
+};

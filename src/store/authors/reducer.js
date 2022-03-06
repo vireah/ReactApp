@@ -1,15 +1,27 @@
-import * as actions from "./actionTypes"
-const authorsReducer = (state = [], action) => {
-    switch(action.type) {
-        case actions.FETCH_REMOTE_DATA_SUCCESS :
-            if (action.payload) {
-                return action.payload
-            }
-            break;
-        default :
-            return state;
-    }
-    return state;
-}
+import {
+	getAuthorsListAction,
+	addNewAuthorsAction,
+} from './actionCreators';
+import { get_authors_list, add_new_authors } from './actionTypes';
 
-export default authorsReducer;
+const initialValue = {
+	authors: [],
+};
+
+export function authorsReducer (
+	state = initialValue,
+	action = { getAuthorsListAction, addNewAuthorsAction }
+) {
+	if (action.type === get_authors_list)
+		return {
+			...state,
+			authors: action.data,
+		};
+	if (action.type === add_new_authors) {
+		return {
+			...state,
+			authors: action.data,
+		};
+	}
+	return state;
+}

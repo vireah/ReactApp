@@ -1,6 +1,6 @@
-import * as actions from "./actionTypes"
+import { user_login } from './actionTypes';
 
-export const addUser = token => ({
-    type: actions.ADD_TOKEN,
-    payload: token
-})
+export const userLoginAction = (user) => ({
+	type: user_login,
+	user: user,
+});

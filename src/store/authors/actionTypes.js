@@ -1,1 +1,3 @@
-export const FETCH_REMOTE_DATA_SUCCESS = "FETCH_REMOTE_DATA_SUCCESS";
+export const get_authors_list = 'GET_AUTHORS_LIST';
+
+export const add_new_authors = 'ADD_NEW_AUTHORS';

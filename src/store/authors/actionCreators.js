@@ -1,6 +1,11 @@
-import * as actions from "./actionTypes"
+import { get_authors_list, add_new_authors } from './actionTypes';
 
-export const addAuthors = result => ({
-    type: actions.FETCH_REMOTE_DATA_SUCCESS,
-    payload: result
-})
+export const getAuthorsListAction = (data) => ({
+	type: get_authors_list,
+	data: data,
+});
+
+export const addNewAuthorsAction = (data) => ({
+	type: add_new_authors,
+	data: data,
+});

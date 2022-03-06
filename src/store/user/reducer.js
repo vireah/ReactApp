@@ -1,20 +1,25 @@
-import * as actions from "./actionTypes"
-const initialState = {
-    isAuth: false,
-    name: '',
-    email: '',
-    token: ''
-}
+import { userLoginAction } from './actionCreators';
+import { user_login } from './actionTypes';
 
-const userReducer = (state = initialState, action) => {
-    switch(action.type) {
-        case actions.ADD_TOKEN :
-            return [...state,  action.payload.token]
-            break;
-        default :
-            return state;
-    }
-    return state;
-}
+const initialValue = {
+	user: {
+		isAuth: false,
+		name: '',
+		email: '',
+		token: '',
+		role: '',
+	},
+};
 
-export default userReducer;
+export function userReducer(
+	state = initialValue,
+	action = { userLoginAction }
+) {
+	if (action.type === user_login) {
+		return {
+			...state,
+			user: action.user,
+		};
+	}
+	return state;
+}

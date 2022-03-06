@@ -1,22 +1,44 @@
-import * as actions from "./actionTypes"
-const coursesReducer = (state = [], action) => {
-    console.log(state,"state")
-    switch(action.type) {
-        case actions.ADD_COURSE :
-            console.log(action,"action222")
-                return [...state, action.payload]
-            break;
-        case actions.FETCH_REMOTE_DATA_SUCCESS :
-            console.log(action.payload !== state ,"action")
-            if (action.payload !== state ) {
-                return action.payload
-            }
-        break;
-        default :
-            return state;
-    }
-    console.log(state,"state")
-    // return state;
-}
+import {
+	getCoursesListAction,
+	addNewCourseAction,
+	deleteCurrentCourseAction,
+} from './actionCreators';
+import {
+	get_courses_list,
+	delete_current_course,
+	add_new_course,
+} from './actionTypes';
 
-export default coursesReducer;
+export const initialValue = {
+	courses: [],
+};
+
+export function coursesReducer(
+	state = initialValue,
+	action = {
+		getCoursesListAction,
+		deleteCurrentCourseAction,
+		addNewCourseAction,
+	}
+) {
+	if (action.type === get_courses_list) {
+		return {
+			...state,
+			courses: action.payload,
+		};
+	}
+	if (action.type === delete_current_course) {
+		return {
+			...state,
+			courses: action.payload,
+		};
+	}
+	if (action.type === add_new_course) {
+		return {
+			...state,
+			courses: action.payload,
+		};
+	}
+
+	return state;
+}

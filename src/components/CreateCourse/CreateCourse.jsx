@@ -2,95 +2,104 @@ import React, {useContext, useState} from 'react';
 import Input from "../../common/Input/Input";
 import Button from "../../common/Button/Button";
 import { useNavigate } from "react-router-dom";
-import {CoursesContext} from "../../App";
 import {addCourse, addCourses} from "../../store/courses/actionCreators";
-// import getCourses from "../../servisces";
+
 import {store} from "../../App";
 import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
+
+import { createNewCourse, editCourse } from '../../store/courses/thunk';
+
+import {dateGeneration} from "../../helpers/dateGeneration";
 
 const CreateCourse = () => {
+    const dispatch = useDispatch();
     let navigate = useNavigate();
-    const { mockedCourses, mockedAuthors } = useContext(CoursesContext);
-    const [mockedCoursesState, setMockedCoursesList] = mockedCourses;
-    const [mockedAuthorsState, setMockedAuthors] = mockedAuthors;
 
-    const [newAuthorInputValue, setNewAuthorInputValue] = useState([]);
+    const token = localStorage.getItem('token');
+
+
+    const [authorName, setNewAuthorInputValue] = useState({ name: '' });
+    const [authorsData, setAuthorsData] = useState([]);
     const [selectedAuthors, setSelectedAuthors] = useState([]);
 
-    const [title, setTitle] = useState([]);
-    const [description, setDescription] = useState([]);
-    const dispatch = useDispatch();
+    const authorsList = useSelector((state) => state.authors.authors);
+    const [courseList, setCourseList] = useState({
+        title: '',
+        description: '',
+        duration: '',
+        authors: [],
+    });
 
-    const setAuthorName = (event) => {
-        setNewAuthorInputValue(event.target.value);
-    }
-
-    const addAuthorName = () => {
-        setMockedAuthors([...mockedAuthorsState, {
-            id: 'id + Math.random().toString(16).slice(2)',
-            name: newAuthorInputValue
-        }]);
-    }
-
-    const getTitle = (event) => {
-        setTitle(event.target.value);
-    }
-
-    const getDescription = (event) => {
-        setDescription(event.target.value);
-    }
-
-    const item = {
-        "title": title,
-        "description": description,
-        "duration": 60,
-        "authors": [
-            "5e0b0f18-32c9-4933-b142-50459b47f09e"
-        ]
+    const getChooseAuthors = (id) => {
+        setAuthorsData(authorsData.filter((item) => item.id !== id));
     };
 
+    const handleChooseAuthors = (id, name) => {
+        setSelectedAuthors([...selectedAuthors, { id, name }]);
+        getChooseAuthors(id);
+    };
 
-    const setCourse = async () => {
-        console.log(item, "item");
-        const response = await fetch('http://localhost:3000/courses/add', {
-            method: 'POST',
-            body: JSON.stringify(item),
-            headers: {
-                'Content-Type': 'application/json',
-                "Authorization": "Bearer mIs97hgONLeEb/VEYdCaBXSygupzBxnAUHXrBVZtWgEwTEcBUMIWZpXRGViwcZdlCugbKyJT1zFsrX9cFWKYgmwuIRj50djQ2D1RuTzp0PXgPrn1lAUtiUgcP5G+0fu2Aqc3Cd/88BB4pCJzY/MI49FAHe8+hBqBeykJC9HQAlsq1F+p2A+J7IOWad4nIwTL9RpGQsbwkHoATjT3b40U7epBlaADOLC7PySPig9LYKOqGHmFFcJ1QqfrqOE5hS7EKGQ2DylSoNlki1rZKRZrIVaXuQkejZXdsQP791Y+0H78GgwwL/ZAAl7FJ7ceO+f742G+xd5ymbw4RZlrfXt/9w=="
-            },
+    const getRemoveChooseAuthors = (id) => {
+        setSelectedAuthors(selectedAuthors.filter((item) => item.id !== id));
+    };
+
+    const handleRemoveChooseAuthors = (id, name) => {
+        setAuthorsData([...authorsData, { id, name }]);
+        getRemoveChooseAuthors(id);
+    };
+
+    const setAuthorName = (e) => {
+        const value = e.target.value;
+        setAuthorName({ name: value });
+    };
+
+    const handleChangeDuration = (e) => {
+        setCourseList({
+            ...courseList,
+            duration: +e.target.value,
         });
-        const result = await response.json();
-        console.log(result);
-    }
+    };
 
-    const setCourseValues = () => {
-        setMockedCoursesList([...mockedCoursesState, {
-            id: 'de5aaa59-90f5-4dbc-b8a9-aaf205c5512ba',
-            title: title,
-            description: description,
-            creationDate: '10/11/2020',
-            duration: 210,
-            authors: selectedAuthors
-        }]);
-        dispatch(addCourse(item));
-        //
-        // const l = setCourse();
+    const getTitle = (e) => {
+        setCourseList({
+            ...courseList,
+            title: e.target.value,
+        });
+    };
 
+    const getDescription = (e) => {
+        setCourseList({ ...courseList, description: e.target.value });
+    };
+
+    const setCourse = () => {
+        let authorsId = selectedAuthors.map((item) => item.id);
+
+        console.log(course, "course")
+
+        if (id) {
+            dispatch(
+                editCourse({ ...courseList, authors: [...authorsId] }, token, id)
+            );
+        } else {
+            dispatch(
+                createNewCourse({ ...courseList, authors: [...authorsId] }, token)
+            );
+        }
         navigate('/courses')
-    }
+    };
 
-    const handleAuthor = (author,event) => {
-        // dispatch(addAuthor(text));
+    const addAuthorName = () => {
+        dispatch(createNewAuthor(authorName, token));
+    };
 
-        const newSelectedAuthors = selectedAuthors.filter(item => author !== item)
-            return setSelectedAuthors([...newSelectedAuthors, author]);
-    }
+    useEffect(() => {
+        dispatch(handleGetAuthorsList(getAuthorsListAction));
+    }, [dispatch]);
 
-    const deleteAuthor = (author,event) => {
-        const newSelectedAuthors = selectedAuthors.filter(item => author !== item)
-            return setSelectedAuthors([...newSelectedAuthors]);
-    }
+    useEffect(() => {
+        setAuthorsData(authorsList);
+    }, [authorsList]);
 
     return (
         <div className="create-course-wrapper">
@@ -99,7 +108,7 @@ const CreateCourse = () => {
                     <label htmlFor="title">Title</label>
                     <Input id="title" onChange={getTitle} type="text" placeholder="Title"/>
                 </div>
-                <Button onClick={setCourseValues} title = 'Create Course' />
+                <Button onClick={setCourse} title = 'Create Course' />
             </div>
             <div className="create-course-description">
                 <label htmlFor="description">Description</label>
@@ -122,9 +131,24 @@ const CreateCourse = () => {
                     })}
                 </div>
                 <div className="item current-course-section">
-                    <h4>Duration time</h4>
-                    <label htmlFor="duration">Description</label>
-                    <input id="duration" type="text" className="duration"></input>
+                    <div className='add-authors-content'>
+                        <h4>Duration</h4>
+                        <label htmlFor="duration">Duration time</label>
+                        <Input
+                            value={courseList.duration}
+                            id="duration"
+                            name='duration'
+                            label='Duration'
+                            placeholder='Enter duration in minutes...'
+                            onChange={handleChangeDuration}
+                        />
+                        <span>
+							<b>
+								DURATION:
+                                {dateGeneration(courseList.duration)}
+							</b>
+						</span>
+                    </div>
                 </div>
                 <div className="item current-course-section">
                     <h4>Course Authors</h4>

@@ -9,7 +9,7 @@ const Header = (props) => {
 
     const logoutClick = () => {
         props.setLoggedIn(false);
-        localStorage.removeItem('isAuthenticated');
+        localStorage.removeItem('token');
         navigate('/login')
     }
 
